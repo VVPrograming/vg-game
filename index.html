@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1f1d47">
+<title>VG game: slide, merge, reach 2048</title>
+<meta name="description" content="VG game is a free number-merging puzzle for Android. Swipe, merge equal tiles and reach 2048.">
+<link rel="icon" href="play/icon-192.png">
+<style>
+:root{--bg:#1f1d47;--board:#34316b;--cell:#443f85;--card:#2b2860;--ink:#3b2f63;--hi:#ffe066;--acc:#4cd964;--mute:#b9b6ef}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#fff;font:400 1.05rem/1.6 ui-rounded,"SF Pro Rounded",system-ui,"Segoe UI",Roboto,sans-serif}
+main,footer{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2{line-height:1.1;margin:0;font-weight:800}
+h1{font-size:clamp(2.2rem,6vw,3.6rem)}
+h2{font-size:clamp(1.5rem,3.6vw,2rem);margin-bottom:18px}
+p{margin:0}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding:48px 0 40px}
+.badge{width:64px;height:64px;border-radius:16px;background:var(--board);color:var(--hi);display:grid;place-items:center;font-weight:900;font-size:1.7rem;margin-bottom:18px}
+.lead{color:var(--mute);font-size:1.15rem;margin:14px 0 24px;max-width:30em}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:15px 24px;border-radius:16px;font-weight:800;text-decoration:none;font-size:1.05rem}
+.btn.p{background:var(--acc);color:var(--ink)}
+.btn.s{background:var(--card);color:#fff;border:2px solid var(--cell)}
+.meta{color:var(--mute);font-size:.9rem;margin-top:12px;min-height:1.4em}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:2.6%;padding:2.6%;background:var(--board);border-radius:20px;aspect-ratio:1;width:100%;max-width:380px;justify-self:center}
+.board div{border-radius:12%;background:var(--cell);display:grid;place-items:center;font-weight:800;font-size:clamp(.95rem,3.6vw,1.6rem)}
+section{padding:30px 0}
+ol,ul{margin:0;padding:0;list-style:none}
+.steps{counter-reset:s;display:grid;gap:14px}
+.steps li{counter-increment:s;background:var(--card);border-radius:16px;padding:16px 18px 16px 62px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:var(--hi);color:var(--ink);font-weight:800;display:grid;place-items:center}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.feat li{background:var(--card);border-radius:16px;padding:16px 18px;border-left:6px solid var(--hi)}
+.feat li:nth-child(2){border-color:#3fa9f5}.feat li:nth-child(3){border-color:var(--acc)}.feat li:nth-child(4){border-color:#ff5d73}
+.feat b{display:block}
+.feat span{color:var(--mute);font-size:.95rem}
+.note{color:var(--mute);font-size:.95rem;margin-top:14px}
+footer{padding:30px 20px 44px;color:var(--mute);font-size:.95rem;border-top:2px solid var(--card)}
+@media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:28px}}
+</style>
+</head>
+<body>
+<main>
+<div class="hero">
+ <div>
+  <div class="badge">VG</div>
+  <h1>Slide. Merge. Reach 2048.</h1>
+  <p class="lead">A number puzzle for your phone. Swipe to slide the tiles, join equal numbers, and keep going as high as you can.</p>
+  <div class="btns">
+   <a class="btn p" id="dl" href="#install">Download APK</a>
+   <a class="btn s" href="play/">Play in browser</a>
+  </div>
+  <p class="meta" id="meta">Free for Android. Works offline.</p>
+ </div>
+ <div class="board" id="board" role="img" aria-label="A 2048 board with colored number tiles"></div>
+</div>
+
+<section id="how">
+ <h2>How to play</h2>
+ <ol class="steps">
+  <li>Swipe up, down, left or right. Every tile slides as far as it can.</li>
+  <li>When two tiles with the same number touch, they merge into one tile with their sum.</li>
+  <li>Reach 2048, then keep playing. The game ends only when no move is left.</li>
+ </ol>
+</section>
+
+<section>
+ <h2>What is inside</h2>
+ <ul class="feat">
+  <li><b>4 themes</b><span>Indigo, Ocean, Sunset and Dark.</span></li>
+  <li><b>Sound effects</b><span>Soft tones you can switch off.</span></li>
+  <li><b>Saved progress</b><span>Your board and best score stay on your phone.</span></li>
+  <li><b>Works offline</b><span>No internet needed after install.</span></li>
+ </ul>
+</section>
+
+<section id="install">
+ <h2>Install on Android</h2>
+ <ol class="steps">
+  <li>Tap <b>Download APK</b> and wait for <b>vg-game.apk</b> to finish downloading.</li>
+  <li>Open the file. If Android asks, allow your browser to install apps from this source.</li>
+  <li>Tap <b>Install</b>. If Play Protect warns about an unknown app, choose <b>Install anyway</b>.</li>
+  <li>Open <b>VG game</b> from your home screen and rotate to landscape.</li>
+ </ol>
+ <p class="note">Prefer no download? Tap <b>Play in browser</b>, then choose Install app in Chrome's menu.</p>
+</section>
+</main>
+<footer>Created By V.V. Programmer</footer>
+<script>
+(()=>{
+const OVERRIDE='';// optional: 'username/repo' if the site is not on github.io
+const m=location.hostname.match(/^([^.]+)\.github\.io$/),seg=location.pathname.split('/')[1];
+let repo=OVERRIDE;
+if(!repo&&m&&seg&&seg.indexOf('.')<0)repo=m[1]+'/'+seg;
+const dl=document.getElementById('dl'),meta=document.getElementById('meta');
+if(repo){
+ dl.href='https://github.com/'+repo+'/releases/latest/download/vg-game.apk';
+ fetch('https://api.github.com/repos/'+repo+'/releases/latest').then(r=>r.ok?r.json():null).then(j=>{
+  if(!j)return;
+  const a=(j.assets||[]).find(x=>x.name==='vg-game.apk');
+  if(a)meta.textContent='Free for Android. Version '+j.tag_name.replace(/^v/,'')+', '+(a.size/1048576).toFixed(1)+' MB. Works offline.';
+ }).catch(()=>{});
+}
+const P=['#ffe066','#ffb347','#ff8a5b','#ff5d73','#e85d9c','#b565e8','#6c7bff','#3fa9f5','#2ec4b6','#4cd964','#ffd700'];
+const v=[2,4,8,16,0,0,32,64,128,256,512,1024,0,2,4,2048],b=document.getElementById('board');
+for(let i=0;i<16;i++){
+ const d=document.createElement('div');
+ if(v[i]){const k=Math.log2(v[i])-1;d.textContent=v[i];d.style.background=P[k];d.style.color=k<2?'#3b2f63':'#fff'}
+ b.appendChild(d);
+}
+})();
+</script>
+</body>
+</html>
