@@ -39,6 +39,15 @@ ol,ul{margin:0;padding:0;list-style:none}
 .feat span{color:var(--mute);font-size:.95rem}
 .note{color:var(--mute);font-size:.95rem;margin-top:14px}
 footer{padding:30px 20px 44px;color:var(--mute);font-size:.95rem;border-top:2px solid var(--card)}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.team li{background:var(--card);border-radius:16px;padding:18px 20px;border-left:6px solid var(--hi)}
+.team li+li{border-color:#3fa9f5}
+.team b{display:block;font-size:1.25rem}
+.team span{color:var(--mute)}
+.contact{display:grid;gap:10px}
+.contact li{background:var(--card);border-radius:14px;padding:12px 16px;word-break:break-word}
+.contact span{color:var(--mute);margin-right:10px}
+.contact a{color:var(--hi);font-weight:700}
 @media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:28px}}
 </style>
 </head>
@@ -86,6 +95,23 @@ footer{padding:30px 20px 44px;color:var(--mute);font-size:.95rem;border-top:2px 
   <li>Open <b>VG game</b> from your home screen and rotate to landscape.</li>
  </ol>
  <p class="note">Prefer no download? Tap <b>Play in browser</b>, then choose Install app in Chrome's menu.</p>
+</section>
+<section>
+ <h2>The team</h2>
+ <ul class="team">
+  <li><b>Suthar Vandan</b><span>Developer</span></li>
+  <li><b>Upadhyay Vedant</b><span>Software developer</span></li>
+ </ul>
+</section>
+
+<section>
+ <h2>Contact</h2>
+ <ul class="contact">
+  <li><span>Email</span><a href="mailto:sutharvandan987@gmail.com">sutharvandan987@gmail.com</a></li>
+  <li><span>Instagram</span><a href="https://instagram.com/suthar_vandan">@suthar_vandan</a></li>
+  <li><span>Discord</span>suthar_vandan</li>
+  <li><span>Website</span><a href="https://vvprograming.github.io/vg-game">vvprograming.github.io/vg-game</a></li>
+ </ul>
 </section>
 </main>
 <footer>Created By V.V. Programmer</footer>
