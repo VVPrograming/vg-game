@@ -19,6 +19,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm install
+      - name: Inject recovery secret
+        env:
+          VG_SECRET: ${{ secrets.VG_SECRET }}
+        run: sed -i "s/__DEV_SECRET__/${VG_SECRET}/" play/index.html
       - run: npx cap add android
       - name: Landscape and icons
         run: |
