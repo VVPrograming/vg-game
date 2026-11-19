@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1f1d47">
+<title>VG game: slide, merge, reach 2048</title>
+<meta name="description" content="VG game is a free number-merging puzzle for Android. Swipe, merge equal tiles and reach 2048.">
+<link rel="icon" href="play/icon-192.png">
+<style>
+:root{--bg:#1f1d47;--board:#34316b;--cell:#443f85;--card:#2b2860;--ink:#3b2f63;--hi:#ffe066;--acc:#4cd964;--mute:#b9b6ef}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#fff;font:400 1.05rem/1.6 ui-rounded,"SF Pro Rounded",system-ui,"Segoe UI",Roboto,sans-serif}
+main,footer{max-width:980px;margin:0 auto;padding:0 20px}
+h1,h2{line-height:1.1;margin:0;font-weight:800}
+h1{font-size:clamp(2.2rem,6vw,3.6rem)}
+h2{font-size:clamp(1.5rem,3.6vw,2rem);margin-bottom:18px}
+p{margin:0}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding:48px 0 40px}
+.badge{width:64px;height:64px;border-radius:16px;background:var(--board);color:var(--hi);display:grid;place-items:center;font-weight:900;font-size:1.7rem;margin-bottom:18px}
+.lead{color:var(--mute);font-size:1.15rem;margin:14px 0 24px;max-width:30em}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:15px 24px;border-radius:16px;font-weight:800;text-decoration:none;font-size:1.05rem}
+.btn.p{background:var(--acc);color:var(--ink)}
+.btn.s{background:var(--card);color:#fff;border:2px solid var(--cell)}
+.meta{color:var(--mute);font-size:.9rem;margin-top:12px;min-height:1.4em}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:2.6%;padding:2.6%;background:var(--board);border-radius:20px;aspect-ratio:1;width:100%;max-width:380px;justify-self:center}
+.board div{border-radius:12%;background:var(--cell);display:grid;place-items:center;font-weight:800;font-size:clamp(.95rem,3.6vw,1.6rem)}
+section{padding:30px 0}
+ol,ul{margin:0;padding:0;list-style:none}
+.steps{counter-reset:s;display:grid;gap:14px}
+.steps li{counter-increment:s;background:var(--card);border-radius:16px;padding:16px 18px 16px 62px;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:var(--hi);color:var(--ink);font-weight:800;display:grid;place-items:center}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.feat li{background:var(--card);border-radius:16px;padding:16px 18px;border-left:6px solid var(--hi)}
+.feat li:nth-child(2){border-color:#3fa9f5}.feat li:nth-child(3){border-color:var(--acc)}.feat li:nth-child(4){border-color:#ff5d73}
+.feat b{display:block}
+.feat span{color:var(--mute);font-size:.95rem}
+.note{color:var(--mute);font-size:.95rem;margin-top:14px}
+footer{padding:30px 20px 44px;color:var(--mute);font-size:.95rem;border-top:2px solid var(--card)}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.team li{background:var(--card);border-radius:16px;padding:18px 20px;border-left:6px solid var(--hi)}
+.team li+li{border-color:#3fa9f5}
+.team b{display:block;font-size:1.25rem}
+.team span{color:var(--mute)}
+.contact{display:grid;gap:10px}
+.contact li{background:var(--card);border-radius:14px;padding:12px 16px;word-break:break-word;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none}
+.ic svg{width:20px;height:20px;fill:#fff}
+.ic svg.o{fill:none;stroke:#fff;stroke-width:2}
+.contact span{color:var(--mute);margin-right:10px}
+.contact a{color:var(--hi);font-weight:700}
+@media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:28px}}
+</style>
+</head>
+<body>
+<main>
+<div class="hero">
+ <div>
+  <div class="badge">VG</div>
+  <h1>Slide. Merge. Reach 2048.</h1>
+  <p class="lead">A number puzzle for your phone. Swipe to slide the tiles, join equal numbers, and keep going as high as you can.</p>
+  <div class="btns">
+   <a class="btn p" id="dl" href="#install">Download APK</a>
+   <a class="btn s" href="play/">Play in browser</a>
+  </div>
+  <p class="meta" id="meta">Free for Android. Works offline.</p>
+ </div>
+ <div class="board" id="board" role="img" aria-label="A 2048 board with colored number tiles"></div>
+</div>
+
+<section id="how">
+ <h2>How to play</h2>
+ <ol class="steps">
+  <li>Swipe up, down, left or right. Every tile slides as far as it can.</li>
+  <li>When two tiles with the same number touch, they merge into one tile with their sum.</li>
+  <li>Reach 2048, then keep playing. The game ends only when no move is left.</li>
+ </ol>
+</section>
+
+<section>
+ <h2>What is inside</h2>
+ <ul class="feat">
+  <li><b>4 themes</b><span>Indigo, Ocean, Sunset and Dark.</span></li>
+  <li><b>Sound effects</b><span>Soft tones you can switch off.</span></li>
+  <li><b>Saved progress</b><span>Your board and best score stay on your phone.</span></li>
+  <li><b>Works offline</b><span>No internet needed after install.</span></li>
+  <li><b>Private lock</b><span>Protect the game with a PIN or a pattern.</span></li>
+ </ul>
+</section>
+
+<section id="install">
+ <h2>Install on Android</h2>
+ <ol class="steps">
+  <li>Tap <b>Download APK</b> and wait for <b>vg-game.apk</b> to finish downloading.</li>
+  <li>Open the file. If Android asks, allow your browser to install apps from this source.</li>
+  <li>Tap <b>Install</b>. If Play Protect warns about an unknown app, choose <b>Install anyway</b>.</li>
+  <li>Open <b>VG game</b> from your home screen and rotate to landscape.</li>
+ </ol>
+ <p class="note">Prefer no download? Tap <b>Play in browser</b>, then choose Install app in Chrome's menu.</p>
+</section>
+<section>
+ <h2>The team</h2>
+ <ul class="team">
+  <li><b>Suthar Vandan</b><span>Developer</span></li>
+  <li><b>Upadhyay Vedant</b><span>Software developer</span></li>
+ </ul>
+</section>
+
+<section>
+ <h2>Contact</h2>
+ <ul class="contact">
+  <li><i class="ic" style="background:#EA4335"><svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg></i><span>Email</span><a href="mailto:sutharvandan987@gmail.com">sutharvandan987@gmail.com</a></li>
+  <li><i class="ic" style="background:#5865F2"><svg viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></i><span>Discord</span>suthar_vandan</li>
+  <li><i class="ic" style="background:linear-gradient(45deg,#FEDA75,#FA7E1E,#D62976,#962FBF,#4F5BD5)"><svg viewBox="0 0 24 24"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></i><span>Instagram</span><a href="https://instagram.com/suthar_vandan">@suthar_vandan</a></li>
+  <li><i class="ic" style="background:#3fa9f5"><svg class="o" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></i><span>Website</span><a href="https://vvprograming.github.io/vg-game">vvprograming.github.io/vg-game</a></li>
+ </ul>
+</section>
+</main>
+<footer>Created By V.V. Programmer</footer>
+<script>
+(()=>{
+const OVERRIDE='';// optional: 'username/repo' if the site is not on github.io
+const m=location.hostname.match(/^([^.]+)\.github\.io$/),seg=location.pathname.split('/')[1];
+let repo=OVERRIDE;
+if(!repo&&m&&seg&&seg.indexOf('.')<0)repo=m[1]+'/'+seg;
+const dl=document.getElementById('dl'),meta=document.getElementById('meta');
+if(repo){
+ dl.href='https://github.com/'+repo+'/releases/latest/download/vg-game.apk';
+ fetch('https://api.github.com/repos/'+repo+'/releases/latest').then(r=>r.ok?r.json():null).then(j=>{
+  if(!j)return;
+  const a=(j.assets||[]).find(x=>x.name==='vg-game.apk');
+  if(a)meta.textContent='Free for Android. Version '+j.tag_name.replace(/^v/,'')+', '+(a.size/1048576).toFixed(1)+' MB. Works offline.';
+ }).catch(()=>{});
+}
+const P=['#ffe066','#ffb347','#ff8a5b','#ff5d73','#e85d9c','#b565e8','#6c7bff','#3fa9f5','#2ec4b6','#4cd964','#ffd700'];
+const v=[2,4,8,16,0,0,32,64,128,256,512,1024,0,2,4,2048],b=document.getElementById('board');
+for(let i=0;i<16;i++){
+ const d=document.createElement('div');
+ if(v[i]){const k=Math.log2(v[i])-1;d.textContent=v[i];d.style.background=P[k];d.style.color=k<2?'#3b2f63':'#fff'}
+ b.appendChild(d);
+}
+})();
+</script>
+</body>
+</html>
