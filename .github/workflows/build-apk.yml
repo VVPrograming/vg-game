@@ -23,6 +23,16 @@ jobs:
         env:
           VG_SECRET: ${{ secrets.VG_SECRET }}
         run: sed -i "s/__DEV_SECRET__/${VG_SECRET}/" play/index.html
+      - name: Inject developer mode
+        env:
+          VG_SECRET: ${{ secrets.VG_SECRET }}
+          VG_DEVCODE: ${{ secrets.VG_DEVCODE }}
+        run: |
+          if [ -n "$VG_DEVCODE" ]; then
+            HASH=$(python3 -c "import hashlib,os;print(hashlib.pbkdf2_hmac('sha256',os.environ['VG_DEVCODE'].encode(),('vg-dev-v1'+os.environ['VG_SECRET']).encode(),100000).hex())")
+            sed -i "s/__DEV_HASH__/${HASH}/" play/index.html
+          fi
+          sed -i "s/__BUILD__/${{ github.run_number }}-${GITHUB_SHA::7}/" play/index.html
       - run: npx cap add android
       - name: Landscape and icons
         run: |
